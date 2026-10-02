@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VIRTUAL UFC LEAGUE</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@500;600;700&display=swap');
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:
+        radial-gradient(circle at 20% 0%,rgba(255,0,0,.12),transparent 30%),
+        radial-gradient(circle at 80% 20%,rgba(255,190,0,.07),transparent 30%),
+        #050505;
+    color:#fff;
+    min-height:100vh;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,input{
+    font:inherit;
+}
+
+.container{
+    width:min(1250px,92%);
+    margin:auto;
+}
+
+/* NAVBAR */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(5,5,5,.88);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #242424;
+}
+
+.nav-inner{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-family:Oswald,sans-serif;
+    font-size:25px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#e50914;
+}
+
+.nav-links{
+    display:flex;
+    gap:24px;
+    color:#aaa;
+    font-size:14px;
+    font-weight:600;
+}
+
+.nav-links a{
+    transition:.2s;
+}
+
+.nav-links a:hover{
+    color:#fff;
+}
+
+@media(max-width:800px){
+    .nav-links{
+        display:none;
+    }
+}
+
+/* HERO */
+
+.hero{
+    min-height:500px;
+    display:flex;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:550px;
+    height:550px;
+    right:-200px;
+    top:-150px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(229,9,20,.22),transparent 65%);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    padding:85px 0;
+}
+
+.kicker{
+    color:#e50914;
+    font-weight:800;
+    letter-spacing:4px;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-family:Oswald,sans-serif;
+    font-size:clamp(55px,9vw,115px);
+    line-height:.88;
+    letter-spacing:-2px;
+    text-transform:uppercase;
+}
+
+.hero h1 span{
+    color:#e50914;
+}
+
+.subtitle{
+    margin-top:25px;
+    color:#aaa;
+    font-size:16px;
+}
+
+.handles{
+    margin-top:8px;
+    color:#777;
+    font-weight:700;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:14px 22px;
+    border-radius:8px;
+    border:1px solid #333;
+    background:#111;
+    color:#fff;
+    cursor:pointer;
+    font-weight:800;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    border-color:#555;
+}
+
+.btn-red{
+    background:#e50914;
+    border-color:#e50914;
+}
+
+.btn-red:hover{
+    background:#ff1520;
+}
+
+/* SECTION */
+
+section{
+    padding:65px 0;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:20px;
+    margin-bottom:28px;
+}
+
+.section-title h2{
+    font-family:Oswald,sans-serif;
+    font-size:42px;
+    text-transform:uppercase;
+}
+
+.section-title p{
+    color:#777;
+    font-size:13px;
+}
+
+/* EVENT */
+
+.event-main{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:20px;
+}
+
+.event-card{
+    border:1px solid #292929;
+    background:linear-gradient(145deg,#111,#080808);
+    border-radius:18px;
+    overflow:hidden;
+    position:relative;
+}
+
+.event-top{
+    padding:28px;
+    border-bottom:1px solid #242424;
+}
+
+.event-type{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 11px;
+    border-radius:5px;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.red{background:rgba(229,9,20,.13);
+    color:#ff3b45;
+    border:1px solid rgba(229,9,20,.35);
+}
+
+.gold{
+    background:rgba(255,193,7,.1);
+    color:#ffc107;
+    border:1px solid rgba(255,193,7,.35);
+}
+
+.orange{
+    background:rgba(255,115,0,.1);
+    color:#ff8500;
+    border:1px solid rgba(255,115,0,.35);
+}
+
+.event-top h3{
+    font-family:Oswald,sans-serif;
+    font-size:42px;
+    margin:20px 0 7px;
+    text-transform:uppercase;
+}
+
+.event-top h4{
+    font-size:20px;
+    color:#ddd;
+}
+
+.location{
+    margin-top:15px;
+    color:#888;
+    font-size:14px;
+}
+
+.event-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    padding:20px;
+    gap:10px;
+}
+
+.stat{
+    background:#0d0d0d;
+    border:1px solid #202020;
+    padding:15px;
+    border-radius:9px;
+    text-align:center;
+}
+
+.stat b{
+    display:block;
+    font-size:22px;
+}
+
+.stat span{
+    color:#777;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.fight-list{
+    padding:0 20px 20px;
+}
+
+.fight{
+    display:grid;
+    grid-template-columns:45px 1fr 30px 1fr;
+    gap:10px;
+    align-items:center;
+    padding:15px 5px;
+    border-bottom:1px solid #1c1c1c;
+    font-weight:700;
+}
+
+.fight:last-child{
+    border-bottom:none;
+}
+
+.fight-number{
+    color:#555;
+}
+
+.fighter-right{
+    text-align:right;
+}
+
+.vs{
+    color:#e50914;
+    font-size:11px;
+    text-align:center;
+    font-weight:900;
+}
+
+.card-label{
+    color:#777;
+    font-size:11px;
+    letter-spacing:2px;
+    font-weight:800;
+    padding:18px 5px 7px;
+}
+
+/* INFO */
+
+.info-box{
+    padding:28px;
+    border:1px solid #292929;
+    background:#0b0b0b;
+    border-radius:18px;
+}
+
+.info-box h3{
+    font-family:Oswald,sans-serif;
+    font-size:27px;
+    margin-bottom:22px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #1e1e1e;
+    color:#aaa;
+}
+
+.info-row strong{
+    color:#fff;
+}
+
+/* SEARCH */
+
+.search-box{
+    width:100%;
+    padding:16px 18px;
+    background:#0b0b0b;
+    color:white;
+    border:1px solid #292929;
+    border-radius:10px;
+    outline:none;
+    margin-bottom:20px;
+}
+
+.search-box:focus{
+    border-color:#e50914;
+}
+
+/* RANKINGS */
+
+.division{
+    border:1px solid #242424;
+    border-radius:16px;
+    background:#0b0b0b;
+    margin-bottom:18px;
+    overflow:hidden;
+}
+
+.division-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 22px;
+    cursor:pointer;
+    background:#101010;
+}
+
+.division-head h3{
+    font-family:Oswald,sans-serif;
+    font-size:25px;
+    text-transform:uppercase;
+}
+
+.division-head span{
+    color:#666;
+}
+
+.rank-list{
+    display:none;
+}
+
+.division.open .rank-list{
+    display:block;
+}
+
+.rank-row{
+    display:grid;
+    grid-template-columns:60px 1fr 100px;
+    align-items:center;
+    gap:15px;
+    padding:14px 20px;
+    border-top:1px solid #191919;
+    transition:.15s;
+}
+
+.rank-row:hover{
+    background:#111;
+}
+
+.rank{
+    color:#777;
+    font-weight:800;
+}
+
+.rank-name{
+    font-weight:700;
+}
+
+.record{
+    color:#777;
+    text-align:right;
+    font-family:monospace;
+}
+
+.champion{
+    background:linear-gradient(90deg,rgba(255,193,7,.12),transparent);
+}
+
+.champion .rank{
+    color:#ffc107;
+}
+
+.champion .rank-name{
+    color:#ffc107;
+    font-weight:900;
+}
+
+.champion-badge{
+    font-size:10px;
+    padding:4px 7px;
+    border:1px solid rgba(255,193,7,.35);
+    border-radius:4px;
+    color:#ffc107;
+    margin-left:8px;
+}
+
+/* BALANCES */
+
+.balance-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.balance-card{
+    background:#0b0b0b;
+    border:1px solid #242424;
+    border-radius:12px;
+    padding:18px;
+    transition:.2s;
+}
+
+.balance-card:hover{
+    transform:translateY(-3px);
+    border-color:#444;
+}
+
+.balance-name{
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.balance-amount{
+    color:#ffc107;
+    font-size:21px;
+    font-weight:900;
+}
+
+.balance-division{
+    color:#666;
+    font-size:11px;
+    margin-top:5px;
+}
+
+@media(max-width:850px){
+    .balance-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}@media(max-width:550px){
+    .balance-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* SCHEDULE */
+
+.schedule{
+    display:grid;
+    gap:12px;
+}
+
+.schedule-card{
+    display:grid;
+    grid-template-columns:130px 1fr auto;
+    gap:20px;
+    align-items:center;
+    padding:22px;
+    border:1px solid #252525;
+    background:#0b0b0b;
+    border-radius:13px;
+}
+
+.schedule-number{
+    font-family:Oswald,sans-serif;
+    font-size:25px;
+}
+
+.schedule-main h3{
+    font-size:18px;
+    margin-bottom:5px;
+}
+
+.schedule-main p{
+    color:#777;
+    font-size:13px;
+}
+
+@media(max-width:650px){
+    .schedule-card{
+        grid-template-columns:1fr;
+        gap:10px;
+    }
+}
+
+/* RESOURCES */
+
+.resources{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+}
+
+.resource{
+    padding:20px;
+    border:1px solid #242424;
+    border-radius:12px;
+    background:#0b0b0b;
+    text-align:center;
+    transition:.2s;
+}
+
+.resource:hover{
+    transform:translateY(-3px);
+    border-color:#e50914;
+}
+
+.resource-icon{
+    font-size:27px;
+    margin-bottom:9px;
+}
+
+.resource b{
+    display:block;
+    font-size:13px;
+}
+
+.resource span{
+    color:#666;
+    font-size:10px;
+}
+
+@media(max-width:900px){
+    .resources{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid #222;
+    padding:35px 0;
+    color:#666;
+    text-align:center;
+    font-size:12px;
+}
+
+footer strong{
+    color:#aaa;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:min(600px,100%);
+    max-height:85vh;
+    overflow:auto;
+    background:#0d0d0d;
+    border:1px solid #333;
+    border-radius:18px;
+    padding:25px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.close{
+    cursor:pointer;
+    color:#777;
+    font-size:24px;
+}
+
+.close:hover{
+    color:#fff;
+}
+
+/* ANIMATION */
+
+.fade{
+    animation:fade .7s ease both;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+<div class="container nav-inner">
+
+<div class="logo">
+VIRTUAL <span>UFC</span>
+</div>
+
+<div class="nav-links">
+<a href="#home">Главная</a>
+<a href="#event">Турнир</a>
+<a href="#rankings">Рейтинги</a>
+<a href="#balances">Балансы</a>
+<a href="#schedule">Расписание</a>
+<a href="#resources">Ресурсы</a>
+</div>
+
+</div>
+</nav>
+
+
+<header class="hero" id="home">
+<div class="container hero-content fade">
+
+<div class="kicker">WELCOME TO THE LEAGUE</div>
+
+<h1>
+VIRTUAL<br>
+<span>UFC</span> LEAGUE
+</h1>
+
+<p class="subtitle">
+Виртуальная лига • рейтинги • турниры • статистика
+</p>
+
+<p class="handles">
+@iwjay &nbsp;•&nbsp; @fuegoxv
+</p>
+
+<div class="hero-buttons">
+<a class="btn btn-red" href="#event">Ближайший турнир</a>
+<a class="btn" href="#rankings">Смотреть рейтинги</a>
+</div>
+
+</div>
+</header>
+
+
+<main>
+
+
+<section id="event">
+<div class="container">
+
+<div class="section-title">
+<div>
+<h2>Ближайший турнир</h2>
+<p>Следующее большое событие VIRTUAL UFC</p>
+</div>
+</div>
+
+
+<div class="event-main">
+
+<div class="event-card fade">
+
+<div class="event-top">
+
+<div class="event-type red">
+🔴 FIGHT NIGHT
+</div>
+
+<h3>UFC FIGHT NIGHT 150</h3>
+
+<h4>ANKALAEV VS STIRLING</h4>
+
+<div class="location">
+🇺🇸 США • BB&T Arena, Florida
+</div>
+
+</div>
+
+
+<div class="event-stats">
+
+<div class="stat">
+<b>12</b>
+<span>Боев</span>
+</div>
+
+<div class="stat">
+<b>8</b>
+<span>Дивизионов</span>
+</div>
+
+<div class="stat">
+<b>5</b>
+<span>Main Card</span>
+</div>
+
+<div class="stat">
+<b>7</b>
+<span>Prelims</span>
+</div>
+
+</div>
+
+
+<div class="fight-list">
+
+<div class="card-label">MAIN CARD</div>
+
+<div class="fight">
+<span class="fight-number">01</span>
+<span>Navajo Stirling</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Magomed Ankalaev</span>
+</div><div class="fight">
+<span class="fight-number">02</span>
+<span>Demerius Johnson</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Asu Almabaev</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">03</span>
+<span>Dominick Reyes</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Abdul Rakhman Yakhyaev</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">04</span>
+<span>Joe Pyfer</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Sharabutdin Magomedov</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">05</span>
+<span>Muhammad Mokaev</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Joshua Van</span>
+</div>
+
+
+<div class="card-label">PRELIMINARY CARD</div>
+
+<div class="fight">
+<span class="fight-number">06</span>
+<span>Alfie Dasuev</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Robbie Lawler</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">07</span>
+<span>Frederic Vosgröne</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Roman Dolidze</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">08</span>
+<span>Usman Nurmagomedov</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Nazim Sadykhov</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">09</span>
+<span>Shavkat Rakhmonov</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Yaroslav Amosov</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">10</span>
+<span>Alexander Volkov</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Stiven Asplund</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">11</span>
+<span>Sean Strickland</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Jared Cannonier</span>
+</div>
+
+<div class="fight">
+<span class="fight-number">12</span>
+<span>Leon Edwards</span>
+<span class="vs">VS</span>
+<span class="fighter-right">Carlos Prates</span>
+</div>
+
+</div>
+</div>
+
+
+<div class="info-box fade">
+
+<h3>ИНФОРМАЦИЯ</h3>
+
+<div class="info-row">
+<span>Организация</span>
+<strong>VIRTUAL UFC</strong>
+</div>
+
+<div class="info-row">
+<span>Событие</span>
+<strong>Fight Night 150</strong>
+</div>
+
+<div class="info-row">
+<span>Главный бой</span>
+<strong>Stirling vs Ankalaev</strong>
+</div>
+
+<div class="info-row">
+<span>Локация</span>
+<strong>🇺🇸 Florida</strong>
+</div>
+
+<div class="info-row">
+<span>Формат</span>
+<strong>12 боёв</strong>
+</div>
+
+<div class="info-row">
+<span>Сообщество</span>
+<strong>VIRTUAL UFC</strong>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- RANKINGS -->
+
+<section id="rankings">
+<div class="container">
+
+<div class="section-title">
+<div>
+<h2>Рейтинги</h2>
+<p>Актуальная таблица бойцов VIRTUAL UFC</p>
+</div>
+</div>
+
+<input
+class="search-box"
+id="fighterSearch"
+type="text"
+placeholder="🔎 Найти бойца..."
+>
+
+
+<div id="rankingsContainer"></div>
+
+</div>
+</section>
+
+
+<!-- BALANCES -->
+
+<section id="balances">
+<div class="container">
+
+<div class="section-title">
+<div>
+<h2>Балансы</h2>
+<p>Финансовая статистика бойцов</p>
+</div>
+</div>
+
+<input
+class="search-box"
+id="balanceSearch"
+type="text"
+placeholder="🔎 Найти бойца или дивизион..."
+>
+
+<div class="balance-grid" id="balancesContainer"></div>
+
+</div>
+</section>
+
+
+<!-- SCHEDULE -->
+
+<section id="schedule">
+<div class="container">
+
+<div class="section-title">
+<div>
+<h2>Расписание</h2>
+<p>Будущие события VIRTUAL UFC</p>
+</div>
+</div>
+
+<div class="schedule">
+
+
+<div class="schedule-card">
+<div class="schedule-number">
+UFC FN 150
+</div>
+<div class="schedule-main">
+<h3>Ankalaev vs Stirling</h3>
+<p>🇺🇸 США • BB&T Arena, Florida</p>
+</div>
+<div class="event-type red">FIGHT NIGHT</div>
+</div>
+
+
+<div class="schedule-card">
+<div class="schedule-number">
+UFC 144
+</div>
+<div class="schedule-main">
+<h3>Oliveira vs Riley</h3>
+<p>🇬🇧 Великобритания • London, O2 Arena</p>
+</div>
+<div class="event-type gold">NUMBERED</div>
+</div>
+
+
+<div class="schedule-card">
+<div class="schedule-number">
+UFC FN 151
+</div>
+<div class="schedule-main">
+<h3>McGregor vs Garry</h3>
+<p>🇮🇪 Ирландия • Dublin</p>
+</div><div class="event-type red">FIGHT NIGHT</div>
+</div>
+
+
+<div class="schedule-card">
+<div class="schedule-number">
+UFC NOCHE 13
+</div>
+<div class="schedule-main">
+<h3>TBD vs TBD</h3>
+<p>🇺🇸 США • New Mexico</p>
+</div>
+<div class="event-type orange">NOCHE</div>
+</div>
+
+
+<div class="schedule-card">
+<div class="schedule-number">
+UFC 145
+</div>
+<div class="schedule-main">
+<h3>TBD vs TBD</h3>
+<p>🇺🇸 США • Madison Square Garden, New York</p>
+</div>
+<div class="event-type gold">NUMBERED</div>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- RESOURCES -->
+
+<section id="resources">
+<div class="container">
+
+<div class="section-title">
+<div>
+<h2>Ресурсы</h2>
+<p>Официальные площадки лиги</p>
+</div>
+</div>
+
+<div class="resources">
+
+<a class="resource" href="https://t.me/HallofFameVUFC" target="_blank">
+<div class="resource-icon">🏆</div>
+<b>Hall of Fame</b>
+<span>Telegram</span>
+</a>
+
+<a class="resource" href="https://t.me/ufcdvoyechka1" target="_blank">
+<div class="resource-icon">🥊</div>
+<b>UFC Двоечка</b>
+<span>Telegram</span>
+</a>
+
+<a class="resource" href="https://t.me/vufc_mm_bot" target="_blank">
+<div class="resource-icon">🤖</div>
+<b>VUFC Bot</b>
+<span>Telegram</span>
+</a>
+
+<a class="resource" href="https://t.me/ufcchatligs" target="_blank">
+<div class="resource-icon">💬</div>
+<b>UFC Chat</b>
+<span>Telegram</span>
+</a>
+
+<a class="resource" href="https://t.me/v1rtufchat" target="_blank">
+<div class="resource-icon">🌐</div>
+<b>V1RTUF Chat</b>
+<span>Telegram</span>
+</a>
+
+</div>
+</div>
+</section>
+
+</main>
+
+
+<footer>
+<div class="container">
+<strong>VIRTUAL UFC LEAGUE</strong><br>
+© 2026 • Virtual MMA Championship
+</div>
+</footer>
+
+
+<script>
+
+/* =========================================
+   РЕЙТИНГИ
+========================================= */
+
+const rankings = {
+
+"Flyweight":[
+["C","Amir Albazi","6-0"],
+["1","Demetrious Johnson","7-1"],
+["2","Ramazan Temirov","2-3"],
+["3","Kai Kara-France","2-4"],
+["4","Brandon Moreno","2-3"],
+["5","Tagir Ulanbekov","2-1"],
+["6","Asu Almabaev","2-0"],
+["7","Joshua Van","1-2"],
+["8","Brandon Royval","1-5"],
+["9","Alex Perez","1-2"],
+["10","Muhammad Mokaev","1-0"],
+["11","Loneer Kavana","1-0"],
+["12","Joseph Morales","0-2"],
+["13","Charles Johnson","0-2"],
+["14","Kai Asakura","0-1"],
+["15","Bilal Hasan","0-2"]
+],
+
+"Bantamweight":[
+["C","Umar Nurmagomedov","5-0"],
+["1","Raul Rosas","8-2"],
+["2","Song Yadong","5-0"],
+["3","Deiveson Figueiredo","4-4"],
+["4","Mitch Raposo","4-3"],
+["5","Sean O'Malley","3-2"],
+["6","Cody Garbrandt","3-3"],
+["7","Tommy McMillen","2-1"],
+["8","Petr Yan","2-0"],
+["9","Sanjar Zakirov","1-3"],
+["10","Aleksandre Topuria","1-1"],
+["11","Aymann Zahabi","0-1"],
+["12","Merab Dvalishvili","1-1"],
+["13","Charles Jourdain","0-1"],
+["14","Raoni Barcelos","0-1"]
+],
+
+"Featherweight":[
+["C","Movsar Evloev","8-0"],
+["1","Jean Silva","4-0"],
+["2","Choi Doo-ho","6-4"],
+["3","Aljamain Sterling","8-10"],
+["4","Morgan Charriere","3-0"],
+["5","Yair Rodriguez","7-7"],
+["6","Jose Delgado","2-1"],
+["7","Alexander Volkanovski","3-0"],
+["8","Manuel Torres","7-7"],
+["9","Arnold Allen","3-5"],
+["10","Calvin Kattar","0-2"],
+["11","Muhammed Ali Osmanli","1-0"],
+["12","Zabit Magomedsharipov","0-1"],
+["13","David Onama","0-1"],
+["14","Aaron Pico","0-1"],
+["15","Losene Keita","0-0"]
+],
+
+"Lightweight":[
+["C","Charles Oliveira","6-0"],
+["1","Ilia Topuria","8-2"],
+["2","Quillan Salkilld","6-0"],
+["3","Terrance McKinney","6-6"],
+["4","Dustin Poirier","10-8"],
+["5","Salahdine Parnasse","3-2"],
+["6","Rafael Fiziev","2-2"],
+["7","Justin Gaethje","2-1"],
+["8","Paddy Pimblett","3-2"],
+["9","Akbar Abdullaev","2-1"],
+["10","Nazim Sadykhov","1-3"],
+["11","Usman Nurmagomedov","1-0"],
+["12","Renato Moicano","1-1"],
+["13","Ramil Kamilov","1-1"],
+["14","Mauricio Ruffy","0-1"],
+["15","Tom Nolan","0-0"],
+["NR","Drew Dober","0-1"],
+["NR","Luke Riley","8-0"]
+],
+
+"Welterweight":[
+["C","Bibert Tumenov","7-0"],
+["1","Georges St-Pierre","6-0"],
+["2","Vicente Luque","6-2"],
+["3","Kamaru Usman","5-2"],
+["4","Ian Garry","4-1"],
+["5","Jean-Paul Lebosnoyani","4-3"],
+["6","Joaquin Buckley","7-6"],
+["7","Belal Muhammad","6-7"],["8","Jack Della Maddalena","3-1"],
+["9","Conor McGregor","3-0"],
+["10","Kevin Holland","4-5"],
+["11","Tai Miller","2-3"],
+["12","Islam Makhachev","1-3"],
+["13","Robbie Lawler","1-0"],
+["14","Sage Northcutt","1-1"],
+["15","Alfie Dasuev","0-1"],
+["NR","Sam Patterson","0-3"],
+["NR","Daniil Donchenko","0-1"],
+["NR","Yaroslav Amosov","0-0"],
+["NR","Shavkat Rakhmonov","0-0"],
+["NR","Leon Edwards","0-0"],
+["NR","Carlos Prates","0-0"]
+],
+
+"Middleweight":[
+["C","Khamzat Chimaev","6-1"],
+["1","Dricus Du Plessis","6-0"],
+["2","Rodolfo Vieira","6-3"],
+["3","Michael Morales","5-1"],
+["4","Caio Borralho","4-0"],
+["5","Israel Adesanya","3-2"],
+["6","Ateba Gautier","5-8"],
+["7","Finny Torres","5-7"],
+["8","Chidi Njokuani","8-3"],
+["9","Bo Nickal","8-7"],
+["10","Joe Pyfer","1-2"],
+["11","Michael Page","1-2"],
+["12","Sharabutdin Magomedov","1-2"],
+["13","Jared Cannonier","2-7"],
+["14","Yoel Romero","1-1"],
+["15","Sean Strickland","0-0"],
+["NR","Cedric Dumas","0-1"]
+],
+
+"Light Heavyweight":[
+["C","Robert Whittaker","6-0"],
+["1","Navajo Stirling","6-1"],
+["2","Magomed Tuchalov","4-1"],
+["3","Magomed Ankalaev","5-0"],
+["4","Abdul Rakhman Yakhyaev","3-5"],
+["5","Reinier de Ridder","4-4"],
+["6","Dominick Reyes","3-1"],
+["7","Zachary Rees","8-14"],
+["8","Daniel Cormier","5-0"],
+["9","Jiri Prochazka","2-5"],
+["10","Carlos Ulberg","2-0"],
+["11","Ivo Baraniewski","1-2"],
+["12","Roman Dolidze","1-1"],
+["13","Jimmy Crute","1-1"],
+["14","Frederic Vosgröne","1-1"],
+["15","Paulo Costa","1-0"],
+["NR","Diyar Nurgzhai","1-3"],
+["NR","Bogdan Guskov","0-2"],
+["NR","Alonzo Menifield","0-1"]
+],
+
+"Heavyweight":[
+["C","Tom Aspinall","8-0"],
+["1","Sergei Pavlovich","5-1"],
+["2","Francis Ngannou","4-3"],
+["3","Curtis Blaydes","3-0"],
+["4","Ryan Spann","1-0"],
+["5","Tai Tuivasa","1-1"],
+["6","Jonata Diniz","1-2"],
+["7","Johnny Walker","5-9"],
+["8","Waldo Cortes-Acosta","2-0"],
+["9","Robelis Despaigne","1-3"],
+["10","Josh Hokit","1-2"],
+["11","Derrick Lewis","3-5"],
+["12","Walter Walker","1-1"],
+["13","Sean Sharaf","0-1"],
+["14","Stiven Asplund","0-0"],
+["15","Tyrell Fortune","0-0"],
+["NR","Alexander Volkov","0-1"],
+["NR","Ciryl Gane","0-1"],
+["NR","Mario Pinto","0-0"]
+]
+
+};
+
+
+/* =========================================
+   БАЛАНСЫ
+========================================= */
+
+const balances = {
+
+"Flyweight":[
+["Demetrious Johnson",5000],
+["Alexandre Pantoja",36000],
+["Ramazan Temirov",5000],
+["Kai Kara-France",5000],
+["Asu Almabaev",12000],
+["Zhalgas Zhumagulov",5000],
+["Amir Albazi",33000],
+["Brandon Moreno",5000],
+["Charles Johnson",20000],
+["Brandon Royval",15000],
+["Bilal Hasan",20000],
+["Tagir Ulanbekov",16000],
+["Joseph Morales",5000],
+["Alex Perez",12000],
+["Bruno Silva",5000],
+["Joshua Van",14000],
+["Dominick Cruz",35000],
+["Manel Kape",35000],
+["Muhammad Mokaev",21000],
+["Kai Asakura",15000]
+],
+
+"Bantamweight":[
+["Luke Riley",5000],
+["Umar Nurmagomedov",70000],
+["Merab Dvalishvili",32000],
+["Mitch Raposo",35000],
+["Raul Rosas",89000],
+["Cody Garbrandt",22000],
+["Song Yadong",51000],
+["Deiveson Figueiredo",54000],
+["Sanjar Zakirov",14000],
+["Aleksandre Topuria",60000],
+["Sean O'Malley",38000],
+["Mark Vologdin",19000],
+["Jose Johnson",12000],
+["Tommy McMillen",15000],
+["Aymann Zahabi",16000],
+["Jamal Emmers",5000],
+["Petr Yan",87000],
+["Ibrahim Ibragimov",107000],
+["Akbar Abdullaev",22000],
+["Raoni Barcelos",15000],
+["Charles Jourdain",15000],
+["Loneer Kavana",35000]
+],
+
+"Featherweight":[
+["Movsar Evloev",81000],
+["Javier Reyes",49000],
+["Lerone Murphy",48000],
+["Aljamain Sterling",33000],
+["Choi Doo-ho",5000],
+["Manuel Torres",55000],
+["Yair Rodriguez",66000],
+["Abdulla Dayakaev",5000],
+["Jean Silva",46000],
+["Arnold Allen",32000],
+["Jose Delgado",84000],
+["David Onama",20000],
+["Calvin Kattar",11000],
+["Aaron Pico",5000],
+["Morgan Charriere",60000],
+["Alexander Volkanovski",72000],
+["Zabit Magomedsharipov",15000],
+["Muhammed Ali Osmanli",25000]
+],
+
+"Lightweight":[
+["Ilia Topuria",186000],
+["Dustin Poirier",78000],
+["Charles Oliveira",120000],
+["Conor McGregor",60000],
+["Salahdine Parnasse",5000],
+["Arman Tsarukyan",67000],
+["Terrance McKinney",49500],["Paddy Pimblett",50000],
+["Ignacio Bahamondes",5000],
+["Benoit Saint Denis",5000],
+["Rafael Fiziev",19000],
+["Justin Gaethje",17000],
+["Quillan Salkilld",65000],
+["Drew Dober",20000],
+["Nazim Sadykhov",32000],
+["Bobby Green",12000],
+["Mateusz Gamrot",12000],
+["Mauricio Ruffy",20000],
+["Renato Moicano",34000],
+["Usman Nurmagomedov",21000],
+["Ramil Kamilov",42000],
+["Sage Northcutt",17000]
+],
+
+"Welterweight":[
+["Bibert Tumenov",79000],
+["Chidi Njokuani",33000],
+["Jean-Paul Lebosnoyani",57000],
+["Georges St-Pierre",67000],
+["Vicente Luque",41000],
+["Joaquin Buckley",5000],
+["Kamaru Usman",24000],
+["Kevin Holland",50000],
+["Belal Muhammad",20000],
+["Tai Miller",17000],
+["Yaroslav Amosov",5000],
+["Stephen Thompson",31000],
+["Islam Makhachev",35000],
+["Carlos Prates",43000],
+["Chaos Williams",5000],
+["Punahele Soriano",5000],
+["Tyron Woodley",5000],
+["Ian Garry",71000],
+["Jack Della Maddalena",73000],
+["Daniil Donchenko",15000],
+["Robbie Lawler",20000],
+["Cedric Doumbe",15000],
+["Sam Patterson",15000]
+],
+
+"Middleweight":[
+["Caio Borralho",79000],
+["Michael Morales",27000],
+["Anthony Hernandez",5000],
+["Rodolfo Vieira",145000],
+["Khamzat Chimaev",62000],
+["Bruno Ferreira",42000],
+["Ateba Gautier",33000],
+["Israel Adesanya",25000],
+["Finny Torres",5000],
+["Jared Cannonier",25000],
+["Dricus Du Plessis",100000],
+["Joe Pyfer",23000],
+["Bo Nickal",31000],
+["Sean Strickland",5000],
+["Sharabutdin Magomedov",16000],
+["Nassourdine Imavov",5000],
+["Azamat Bekoev",12000],
+["Gregory Rodrigues",5000],
+["Michael Page",14000],
+["Yoel Romero",41000]
+],
+
+"Light Heavyweight":[
+["Navajo Stirling",89000],
+["Darren Till",39000],
+["Magomed Tuchalov",31000],
+["Reinier de Ridder",22000],
+["Abdul Rakhman Yakhyaev",40000],
+["Robert Whittaker",67000],
+["Zachary Rees",5000],
+["Jiri Prochazka",24000],
+["Diyar Nurgzhai",25000],
+["Jimmy Crute",32000],
+["Nikita Krylov",5000],
+["Paulo Costa",29000],
+["Dominick Reyes",58000],
+["Magomed Ankalaev",39000],
+["Ivo Baraniewski",37000],
+["Roman Dolidze",13000],
+["Bogdan Guskov",27000],
+["Carlos Ulberg",18000],
+["Frederic Vosgröne",15000]
+],
+
+"Heavyweight":[
+["Tom Aspinall",71000],
+["Sergei Pavlovich",50000],
+["Francis Ngannou",36000],
+["Vadim Nemkov",5000],
+["Johnny Walker",21000],
+["Jonata Diniz",28000],
+["Brando Pericic",5000],
+["Josh Hokit",18000],
+["Ryan Spann",5000],
+["Daniel Cormier",55000],
+["Derrick Lewis",5000],
+["Tai Tuivasa",39000],
+["Alex Pereira",45000],
+["Robelis Despaigne",15000],
+["Mario Pinto",5000],
+["Curtis Blaydes",44000],
+["Alexander Volkov",15000],
+["Waldo Cortes-Acosta",68000],
+["Ciryl Gane",15000],
+["Walter Walker",20000]
+]
+
+};
+
+
+/* =========================================
+   ОТРИСОВКА РЕЙТИНГОВ
+========================================= */
+
+const rankingsContainer =
+document.getElementById("rankingsContainer");
+
+function renderRankings(filter=""){
+
+    rankingsContainer.innerHTML="";
+
+    Object.entries(rankings).forEach(([division, fighters])=>{
+
+        const filtered = fighters.filter(f =>
+            f[1].toLowerCase().includes(filter.toLowerCase()) ||
+            division.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        if(!filtered.length) return;
+
+        const div=document.createElement("div");
+        div.className="division open";
+
+        let rows="";
+
+        filtered.forEach(f=>{
+
+            const champion=f[0]==="C";
+
+            rows+=`
+            <div class="rank-row ${champion ? "champion":""}">
+                <div class="rank">
+                    ${champion ? "🏆 C" : f[0]}
+                </div>
+
+                <div class="rank-name">
+                    ${f[1]}
+                    ${champion ? '<span class="champion-badge">CHAMPION</span>' : ""}
+                </div>
+
+                <div class="record">
+                    ${f[2]}
+                </div>
+            </div>
+            `;
+        });
+
+        div.innerHTML=`
+            <div class="division-head">
+                <h3>${division}</h3>
+                <span>${fighters.length} fighters ▾</span>
+            </div>
+
+            <div class="rank-list">
+                ${rows}</div>
+        `;
+
+        const head=div.querySelector(".division-head");
+
+        head.onclick=()=>{
+            div.classList.toggle("open");
+        };
+
+        rankingsContainer.appendChild(div);
+    });
+}
+
+renderRankings();
+
+
+document.getElementById("fighterSearch")
+.addEventListener("input",e=>{
+    renderRankings(e.target.value);
+});
+
+
+/* =========================================
+   ОТРИСОВКА БАЛАНСОВ
+========================================= */
+
+const balancesContainer =
+document.getElementById("balancesContainer");
+
+function renderBalances(filter=""){
+
+    balancesContainer.innerHTML="";
+
+    Object.entries(balances).forEach(([division,fighters])=>{
+
+        fighters.forEach(([name,money])=>{
+
+            const search=
+                (name+" "+division).toLowerCase();
+
+            if(!search.includes(filter.toLowerCase()))
+                return;
+
+            const card=document.createElement("div");
+
+            card.className="balance-card";
+
+            card.innerHTML=`
+                <div class="balance-name">
+                    ${name}
+                </div>
+
+                <div class="balance-amount">
+                    $${money.toLocaleString("en-US")}
+                </div>
+
+                <div class="balance-division">
+                    ${division}
+                </div>
+            `;
+
+            balancesContainer.appendChild(card);
+        });
+    });
+}
+
+renderBalances();
+
+
+document.getElementById("balanceSearch")
+.addEventListener("input",e=>{
+    renderBalances(e.target.value);
+});
+
+
+/* =========================================
+   АНИМАЦИЯ ПРИ ПОЯВЛЕНИИ
+========================================= */
+
+const observer=new IntersectionObserver(entries=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.style.opacity="1";
+            entry.target.style.transform="translateY(0)";
+
+        }
+
+    });
+
+},{threshold:.08});
+
+
+document.querySelectorAll(".fade")
+.forEach(el=>observer.observe(el));
+
+
+/* =========================================
+   ESC — ЗАКРЫТИЕ
+========================================= */
+
+document.addEventListener("keydown",e=>{
+
+    if(e.key==="Escape"){
+
+        document.querySelectorAll(".modal")
+        .forEach(m=>m.classList.remove("active"));
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
